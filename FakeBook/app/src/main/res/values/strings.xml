@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Friend Finder</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="uploading_names">Uploading Names</string>
+    <string name="uploading_places">Uploading Places</string>
+    <string name="uploading_images">Uploading Images</string>
+    <string name="uploading_data">Uploading Data</string>
+    <string name="title_activity_maps">Friend Finder</string>
+    <string name="menu_button">Menu</string>
+    <string name="add_friend_menu_item">Add Friend</string>
+    <string name="see_list_menu_item">List of Friends</string>
+    <string name="settings_menu_item">Settings</string>
+    <string name="title_activity_friends_list">Friend Finder</string>
+    <string name="title_activity_friend_list">Friend Finder</string>
+    <string name="title_activity_add_friend">Friend Finder</string>
+    <string name="name">ListViewBaseAdapter</string>
+    <string name="image">Thumbnail</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main_activity_horizontol">Friend Finder</string>
+    <string name="title_activity_chat">Friend Finder</string>
+    <string name="send_message">Send Message</string>
+
+</resources>
