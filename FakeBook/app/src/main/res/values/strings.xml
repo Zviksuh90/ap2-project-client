@@ -22,5 +22,4 @@
     <string name="title_activity_main_activity_horizontol">Friend Finder</string>
     <string name="title_activity_chat">Friend Finder</string>
     <string name="send_message">Send Message</string>
-    <string name="read_message">Read Message</string>
 </resources>
