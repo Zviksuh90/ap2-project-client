@@ -16,8 +16,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Message;
-import android.os.Messenger;
+
 import android.util.Log;
 
 import org.apache.http.HttpEntity;
@@ -32,10 +31,9 @@ import org.json.JSONObject;
 
 public class ChatService extends IntentService {
     private DatabaseHandler db;
-    public static final String NOTIFICATION = "http://ap2-chat-server.appspot.com/";
-    private Timer timer;
+    public static final String NOTIFICATION = "http://ap2-chat-server.appspot.com/" + "getUpdates";
 
-    public ChatService(){
+    public ChatService() {
         super("ChatService");
         db = new DatabaseHandler(this);
 
@@ -54,31 +52,28 @@ public class ChatService extends IntentService {
             HttpResponse response = httpClient.execute(httpGet, localContext);
             HttpEntity entity = response.getEntity();
             text = getASCIIContentFromEntity(entity);
-            String result=text;
+            String result = text;
             try {
                 JSONObject obj = new JSONObject(result);
-                String version = obj.getString("version");
-                JSONArray feeds = obj.getJSONArray("feeds");
-                for (int i = 0; i < feeds.length(); i++) {
-                    JSONObject data = feeds.getJSONObject(i);
-                    int a = 1;
-                    if (a == 1)
-                    {
+                JSONArray messages = obj.getJSONArray("messages");
+                for (int i = 0; i < messages.length(); i++) {
+                    JSONObject data = messages.getJSONObject(i);
 
-                    }
+                    db.addMessage(new Message(data.getString(DatabaseHandler.KEY_CHANNEL_ID),
+                                                data.getString(DatabaseHandler.KEY_USER_ID),
+                                                data.getString(DatabaseHandler.KEY_TEXT),
+                                                data.getString(DatabaseHandler.KEY_DATE_TIME),
+                                                data.getString(DatabaseHandler.KEY_LONGTITUDE),
+                                                data.getString(DatabaseHandler.KEY_LATITUDE)));
                 }
 
-                db.addContact(new Contact("GOOD SERVICE", text));
-            }
-            catch (Exception e)
-            {
+
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
