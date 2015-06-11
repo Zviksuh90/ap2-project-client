@@ -17,6 +17,7 @@ public class ChatActivity extends ActionBarActivity {
     TextView t4;
     EditText inputText;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +59,8 @@ public class ChatActivity extends ActionBarActivity {
     }
 
     public void sendMessage(View view){
-        String newMessage = inputText.getText().toString();
+
+        String newMessage = new DatabaseHandler(this).getAllContacts().get(0).getPhoneNumber();
         t0.setText(t1.getText());
         t1.setText(t2.getText());
         t2.setText(t3.getText());

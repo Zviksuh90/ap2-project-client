@@ -44,6 +44,10 @@ public class SplashScreen extends Activity {
                 SplashScreen.this.finish();
             }
         }.start();
+
+        //starting chat service
+        Intent intent = new Intent(this, ChatService.class);
+        startService(intent);
     }
 
 }
