@@ -13,6 +13,11 @@ public class Channel {
         this.name = name;
         this.id = id;
     }
+
+    public Channel() {
+
+    }
+
     public String getIcon() {
         return icon;
     }

@@ -31,13 +31,11 @@ import org.json.JSONObject;
 
 public class ChatService extends IntentService {
     private DatabaseHandler db;
-    public static final String NOTIFICATION = "http://ap2-chat-server.appspot.com/" + "getUpdates";
-
+    public static final String GET_UPDATES = "http://ap2-chat-server.appspot.com/" + "getUpdates";
+    public static final String GET_CHANNELS =  "http://ap2-chat-server.appspot.com/" + "getChannels";
     public ChatService() {
         super("ChatService");
         db = new DatabaseHandler(this);
-
-
     }
 
 
@@ -46,7 +44,8 @@ public class ChatService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         HttpClient httpClient = new DefaultHttpClient();
         HttpContext localContext = new BasicHttpContext();
-        HttpGet httpGet = new HttpGet(NOTIFICATION);
+        //handeling updates
+        HttpGet httpGet = new HttpGet(GET_UPDATES);
         String text = null;
         try {
             HttpResponse response = httpClient.execute(httpGet, localContext);
@@ -77,6 +76,34 @@ public class ChatService extends IntentService {
             e.printStackTrace();
         }
 
+        //handeling channels
+        httpGet = new HttpGet(GET_CHANNELS);
+        text = null;
+        try {
+            HttpResponse response = httpClient.execute(httpGet, localContext);
+            HttpEntity entity = response.getEntity();
+            text = getASCIIContentFromEntity(entity);
+            String result = text;
+            try {
+                JSONObject obj = new JSONObject(result);
+                JSONArray messages = obj.getJSONArray("channels");
+                for (int i = 0; i < messages.length(); i++) {
+                    JSONObject data = messages.getJSONObject(i);
+
+                    db.addChannel(new Channel(data.getString(DatabaseHandler.KEY_ICON),
+                            data.getString(DatabaseHandler.KEY_NAME),
+                            data.getString(DatabaseHandler.KEY_ID)));
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     protected String getASCIIContentFromEntity(HttpEntity entity)

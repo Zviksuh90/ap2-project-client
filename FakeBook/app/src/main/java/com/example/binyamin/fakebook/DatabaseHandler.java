@@ -105,10 +105,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     // Getting All Messages
-    public List<Message> getAllContacts() {
+    public List<Message> getAllMessages() {
         List<Message> messageList = new ArrayList<Message>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_MESSAGES;
+        String selectQuery = "SELECT  * FROM " + TABLE_MESSAGES
+                + "ORDER BY" + KEY_DATE_TIME + "ASC";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -132,5 +133,29 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return messageList;
     }
 
+    // Getting All Channels
+    public List<Channel> getAllChannels() {
+        List<Channel> channelList = new ArrayList<Channel>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_CHANNELS;
 
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Channel channel = new Channel();
+                channel.setIcon(cursor.getString(0));
+                channel.setName(cursor.getString(1));
+                channel.setId(cursor.getString(2));
+
+                // Adding contact to list
+                channelList.add(channel);
+            } while (cursor.moveToNext());
+        }
+
+        // return contact list
+        return channelList;
+    }
 }
