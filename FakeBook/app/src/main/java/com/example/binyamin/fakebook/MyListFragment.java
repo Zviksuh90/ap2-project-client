@@ -13,22 +13,26 @@ public class MyListFragment extends ListFragment {
     private String[] titles;
     private String[] descriptions;
     private Integer[] images;
-    List<RowItem> rowItems;
+    List<Channel> channels;
+    DatabaseHandler db;
 
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        rowItems = new ArrayList<RowItem>();
-
-
-
-
-
-        CustomArrayAdapter adapter = new CustomArrayAdapter(getActivity(),
-                R.layout.list_item, rowItems);
+        db = new DatabaseHandler(getActivity());
+        channels = new ArrayList<Channel>();
+        channels = db.getAllChannels();
+        /*
+        Channel ch1 = new Channel("icon","channel1","20022");
+        Channel ch2 = new Channel("icon","channel2","20023");
+        Channel ch3 = new Channel("icon","channel3","20024");
+        channels.add(ch1);
+        channels.add(ch2);
+        channels.add(ch3);
+        */
+        ChannelArrayAdapter adapter = new ChannelArrayAdapter(getActivity(),
+                R.layout.list_item, channels);
         setListAdapter(adapter);
-
     }
 
     @Override

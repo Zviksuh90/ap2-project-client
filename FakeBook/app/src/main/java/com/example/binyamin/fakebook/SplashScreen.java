@@ -14,12 +14,16 @@ public class SplashScreen extends Activity {
     private final int SPLASH_DISPLAY_LENGTH = 5000;
     private final int SECOND = 1000;
     TextView splashText;
+    DatabaseHandler db;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.splash_screen);
         splashText = (TextView)findViewById(R.id.splashText);
+        db = new DatabaseHandler(this);
+        db.deleteAllMessages();
+        db.addMessage(new Message("Jim","hello","id","time","lat","long"));
         new CountDownTimer(SPLASH_DISPLAY_LENGTH, SECOND) {
             public void onTick(long millisUntilFinished) {
                 int second = (int) millisUntilFinished/SECOND;

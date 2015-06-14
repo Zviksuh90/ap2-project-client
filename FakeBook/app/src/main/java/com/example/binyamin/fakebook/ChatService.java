@@ -38,7 +38,6 @@ public class ChatService extends IntentService {
         db = new DatabaseHandler(this);
     }
 
-
     // will be called asynchronously by Android
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -57,7 +56,6 @@ public class ChatService extends IntentService {
                 JSONArray messages = obj.getJSONArray("messages");
                 for (int i = 0; i < messages.length(); i++) {
                     JSONObject data = messages.getJSONObject(i);
-
                     db.addMessage(new Message(data.getString(DatabaseHandler.KEY_CHANNEL_ID),
                                                 data.getString(DatabaseHandler.KEY_USER_ID),
                                                 data.getString(DatabaseHandler.KEY_TEXT),
@@ -65,8 +63,6 @@ public class ChatService extends IntentService {
                                                 data.getString(DatabaseHandler.KEY_LONGTITUDE),
                                                 data.getString(DatabaseHandler.KEY_LATITUDE)));
                 }
-
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -89,7 +85,6 @@ public class ChatService extends IntentService {
                 JSONArray messages = obj.getJSONArray("channels");
                 for (int i = 0; i < messages.length(); i++) {
                     JSONObject data = messages.getJSONObject(i);
-
                     db.addChannel(new Channel(data.getString(DatabaseHandler.KEY_ICON),
                             data.getString(DatabaseHandler.KEY_NAME),
                             data.getString(DatabaseHandler.KEY_ID)));

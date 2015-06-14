@@ -18,7 +18,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Database Name
-    private static final String DATABASE_NAME = "Manager";
+    private static final String DATABASE_NAME = "FakeBook";
 
     // Contacts table name
     public static final String TABLE_MESSAGES = "messages";
@@ -100,16 +100,25 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_ID, channel.getId());
 
         // Inserting Row
-        db.insert(TABLE_MESSAGES, null, values);
+        db.insert(TABLE_CHANNELS, null, values);
         db.close(); // Closing database connection
+    }
+
+    public void deleteAllChannels(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL ("delete from "+ TABLE_CHANNELS);
+    }
+
+    public void deleteAllMessages(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL ("delete from "+ TABLE_MESSAGES);
     }
 
     // Getting All Messages
     public List<Message> getAllMessages() {
         List<Message> messageList = new ArrayList<Message>();
         // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_MESSAGES
-                + "ORDER BY" + KEY_DATE_TIME + "ASC";
+        String selectQuery = "SELECT  * FROM " + TABLE_MESSAGES;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

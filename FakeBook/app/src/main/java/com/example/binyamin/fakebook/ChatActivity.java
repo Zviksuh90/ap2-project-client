@@ -1,12 +1,20 @@
 package com.example.binyamin.fakebook;
 
+import android.content.Intent;
+import android.database.DataSetObserver;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.List;
 
 
 public class ChatActivity extends ActionBarActivity {
@@ -18,21 +26,74 @@ public class ChatActivity extends ActionBarActivity {
     EditText inputText;
 
 
+
+    private ChatArrayAdapter chatArrayAdapter;
+    private ListView listView;
+    private EditText chatText;
+    private Button buttonSend;
+
+    Intent intent;
+    private boolean side = false;
+    DatabaseHandler db;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent i = getIntent();
         setContentView(R.layout.activity_chat);
-        t0 = (TextView) findViewById(R.id.textView0);
-        t1 = (TextView) findViewById(R.id.textView1);
-        t2 = (TextView) findViewById(R.id.textView2);
-        t3 = (TextView) findViewById(R.id.textView3);
-        t4 = (TextView) findViewById(R.id.textView4);
-        inputText = (EditText)findViewById(R.id.editText);
-        t0.setText("");
-        t1.setText("");
-        t2.setText("");
-        t3.setText("");
-        t4.setText("");
+
+        //TODO set up datebase
+        db = new DatabaseHandler(this);
+        //db.onOpen();
+        //create new messages
+        /*
+        Message m1 = new Message("channel1","hello","jimmy","1234","12367","12389");
+        Message m2 = new Message("channel1","bye","sam","34","356","123345");
+        Message m3 = new Message("channel1","why","josh","5523","389","167");
+        db.addMessage(m1);
+        db.addMessage(m2);
+        db.addMessage(m3);
+        */
+        buttonSend = (Button) findViewById(R.id.buttonSend);
+        listView = (ListView) findViewById(R.id.listView1);
+        //TODO set up the get messages
+        String channelID = "channel1";
+        Intent intent = getIntent();
+        /*
+        if (null != intent) {
+            channelID = intent.getStringExtra("CHANNEL");
+        }
+        */
+        List<Message> messagesList = db.getAllMessages();
+        chatArrayAdapter = new ChatArrayAdapter(getApplicationContext(), R.layout.activity_chat_singlemessage,messagesList);
+        listView.setAdapter(chatArrayAdapter);
+        chatText = (EditText) findViewById(R.id.chatText);
+        chatText.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    return sendChatMessage();
+                }
+                return false;
+            }
+        });
+
+        buttonSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                sendChatMessage();
+            }
+        });
+
+        listView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        listView.setAdapter(chatArrayAdapter);
+
+        //to scroll the list view to bottom on data change
+        chatArrayAdapter.registerDataSetObserver(new DataSetObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                listView.setSelection(chatArrayAdapter.getCount() - 1);
+            }
+        });
     }
 
 
@@ -58,13 +119,12 @@ public class ChatActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void sendMessage(View view){
-
-        String newMessage = new DatabaseHandler(this).getAllContacts().get(0).getPhoneNumber();
-        t0.setText(t1.getText());
-        t1.setText(t2.getText());
-        t2.setText(t3.getText());
-        t3.setText(t4.getText());
-        t4.setText(newMessage);
+    private boolean sendChatMessage(){
+        String clientName = "sammy";
+        //TODO add message to send
+        //chatArrayAdapter.add(new Message(side, chatText.getText().toString(),clientName));
+        chatText.setText("");
+        side = !side;
+        return true;
     }
 }
