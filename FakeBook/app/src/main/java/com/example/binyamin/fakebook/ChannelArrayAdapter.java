@@ -12,12 +12,12 @@ import android.widget.TextView;
 import java.util.List;
 
 
-public class CustomArrayAdapter extends ArrayAdapter<RowItem> {
+public class ChannelArrayAdapter extends ArrayAdapter<RowItem> {
 
     Context context;
 
-    public CustomArrayAdapter(Context context, int resourceId,
-                              List<RowItem> items) {
+    public ChannelArrayAdapter(Context context, int resourceId,
+                               List<RowItem> items) {
         super(context, resourceId, items);
         this.context = context;
     }
