@@ -143,10 +143,9 @@ public class ChatActivity extends ActionBarActivity {
         String message = chatText.getText().toString();
 
         String messageToSend = "http://ap2-chat-server.appspot.com/Save_Message?date=" + formattedDate +
-                "&user=" + clientName + "&chan=" + channelId + "&text=" + message + "&latitude=" + "&longtitude=";
-        http://ap2-chat-server.appspot.com/Save_Message?date=14.06.2015.14.23&user=binny&chan=fox&text=nooooice&latitude=10&longtitude=20
+                "&user=" + clientName + "&chan=" + channelId + "&text=" + message + "&lat=" + "10" + "&long=" + "20";
 
-        new ServerFeeds().execute("http://10.0.2.2:13081/");
+        new ServerFeeds().execute(messageToSend);
 
         //chatArrayAdapter.add(new Message(side, chatText.getText().toString(),clientName));
         chatText.setText("");
@@ -160,57 +159,40 @@ public class ChatActivity extends ActionBarActivity {
             HttpClient httpClient = new DefaultHttpClient();
             HttpContext localContext = new BasicHttpContext();
             HttpGet httpGet = new HttpGet(params[0]);
-            String text = null;
+            String text;
             try {
                 HttpResponse response = httpClient.execute(httpGet, localContext);
                 HttpEntity entity = response.getEntity();
                 text = getASCIIContentFromEntity(entity);
+                Toast.makeText(getApplicationContext(), text,
+                        Toast.LENGTH_LONG).show();
             }
             catch (Exception e)
             {
                 e.printStackTrace();
             }
-            return text;
+            return "";
         }
 
         protected void onPostExecute(String result) {
-            try {
-                JSONObject obj = new JSONObject(result);
-                String version = obj.getString("version");
-                JSONArray feeds = obj.getJSONArray("feeds");
-                for (int i = 0; i < feeds.length(); i++) {
-                    JSONObject data = feeds.getJSONObject(i);
-                    int a = 1;
-                    if (a == 1)
-                    {
 
-                    }
-                }
-                SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString("version5", version);
-                editor.commit();
+        }
+
+        protected String getASCIIContentFromEntity(HttpEntity entity)
+                throws IllegalStateException, IOException {
+            InputStream in = entity.getContent();
+            StringBuffer out = new StringBuffer();
+            int n = 1;
+            while (n > 0) {
+                byte[] b = new byte[4096];
+                n = in.read(b);
+                if (n > 0)
+                    out.append(new String(b, 0, n));
             }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
+            return out.toString();
         }
     }
 
 
-    protected String getASCIIContentFromEntity(HttpEntity entity)
-            throws IllegalStateException, IOException {
-        InputStream in = entity.getContent();
-        StringBuffer out = new StringBuffer();
-        int n = 1;
-        while (n > 0) {
-            byte[] b = new byte[4096];
-            n = in.read(b);
-            if (n > 0)
-                out.append(new String(b, 0, n));
-        }
-        return out.toString();
-    }
 
 }

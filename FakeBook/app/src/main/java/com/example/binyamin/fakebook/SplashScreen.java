@@ -22,8 +22,9 @@ public class SplashScreen extends Activity {
         setContentView(R.layout.splash_screen);
         splashText = (TextView)findViewById(R.id.splashText);
         db = new DatabaseHandler(this);
-        db.deleteAllMessages();
-        db.addMessage(new Message("Jim","hello","id","time","lat","long"));
+        //db.deleteAllMessages();
+        //db.addChannel(new Channel("name","id","hello"));
+        //db.addMessage(new Message("Jim","hello","id","time","lat","long"));
         new CountDownTimer(SPLASH_DISPLAY_LENGTH, SECOND) {
             public void onTick(long millisUntilFinished) {
                 int second = (int) millisUntilFinished/SECOND;
@@ -43,7 +44,7 @@ public class SplashScreen extends Activity {
                 }
             }
             public void onFinish() {
-                Intent loginIntent = new Intent(SplashScreen.this,LoginActivity.class);
+                Intent loginIntent = new Intent(SplashScreen.this,MainActivity.class);
                 SplashScreen.this.startActivity(loginIntent);
                 SplashScreen.this.finish();
             }

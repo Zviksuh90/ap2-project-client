@@ -1,5 +1,6 @@
 package com.example.binyamin.fakebook;
 
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,6 +8,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
 
 
 public class AddChannelActivity extends ActionBarActivity {
@@ -31,7 +38,10 @@ public class AddChannelActivity extends ActionBarActivity {
         String channelName = editTextChannelName.getText().toString();
         EditText editTextChannelId = (EditText)findViewById(R.id.channelId);
         String channelId = editTextChannelId.getText().toString();
-        
+        String channelToAdd = "http://ap2-chat-server.appspot.com/Add_Channel?name="+channelName + "&icon="+ channelId;
+
+        new ServerFeeds().execute(channelToAdd);
+
     }
 
 
@@ -57,6 +67,24 @@ public class AddChannelActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private class ServerFeeds extends AsyncTask<String, String, String> {
 
+        @Override
+        protected String doInBackground(String... params) {
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpContext localContext = new BasicHttpContext();
+            HttpGet httpGet = new HttpGet(params[0]);
+            try {
+                httpClient.execute(httpGet, localContext);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "";
+        }
+
+        protected void onPostExecute(String result) {
+
+        }
+    }
 
 }
