@@ -164,7 +164,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
                 MainActivity.this.startActivity(listIntent);
                 break;
             case R.id.cnt_mnu_add_friend:
-                Intent addFriendIntent = new Intent(MainActivity.this,AddFriendActivity.class);
+                Intent addFriendIntent = new Intent(MainActivity.this,AddChannelActivity.class);
                 MainActivity.this.startActivity(addFriendIntent);
                 break;
             default:

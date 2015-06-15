@@ -58,7 +58,7 @@
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name=".AddFriendActivity"
+            android:name=".AddChannelActivity"
             android:label="@string/title_activity_add_friend" >
         </activity>
         <activity

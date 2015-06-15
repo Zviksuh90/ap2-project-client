@@ -4,14 +4,34 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 
-public class AddFriendActivity extends ActionBarActivity {
+public class AddChannelActivity extends ActionBarActivity {
 
+    Button buttonAdd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_friend);
+        setContentView(R.layout.activity_add_channel);
+
+        buttonAdd = (Button) findViewById(R.id.buttonAdd);
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                addChannel();
+            }
+        });
+    }
+
+    private void addChannel() {
+        EditText editTextChannelName = (EditText)findViewById(R.id.channelName);
+        String channelName = editTextChannelName.getText().toString();
+        EditText editTextChannelId = (EditText)findViewById(R.id.channelId);
+        String channelId = editTextChannelId.getText().toString();
+        
     }
 
 
@@ -36,4 +56,7 @@ public class AddFriendActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }

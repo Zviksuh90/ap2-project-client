@@ -1,7 +1,9 @@
 package com.example.binyamin.fakebook;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.DataSetObserver;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -13,24 +15,32 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 
 public class ChatActivity extends ActionBarActivity {
-    TextView t0;
-    TextView t1;
-    TextView t2;
-    TextView t3;
-    TextView t4;
-    EditText inputText;
-
-
 
     private ChatArrayAdapter chatArrayAdapter;
     private ListView listView;
     private EditText chatText;
     private Button buttonSend;
+    private String channelId;
 
     Intent intent;
     private boolean side = false;
@@ -56,7 +66,7 @@ public class ChatActivity extends ActionBarActivity {
         buttonSend = (Button) findViewById(R.id.buttonSend);
         listView = (ListView) findViewById(R.id.listView1);
         //TODO set up the get messages
-        String channelID = "channel1";
+        channelId = "channel1";
         Intent intent = getIntent();
         /*
         if (null != intent) {
@@ -121,10 +131,86 @@ public class ChatActivity extends ActionBarActivity {
 
     private boolean sendChatMessage(){
         String clientName = "sammy";
-        //TODO add message to send
+
+        //getting date
+        Calendar c = Calendar.getInstance();
+        System.out.println("Current time =&gt; "+c.getTime());
+        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        String formattedDate = df.format(c.getTime());
+        Toast.makeText(this, formattedDate, Toast.LENGTH_SHORT).show();
+        //getting message
+        EditText chatText = (EditText) findViewById(R.id.chatText);
+        String message = chatText.getText().toString();
+
+        String messageToSend = "http://ap2-chat-server.appspot.com/Save_Message?date=" + formattedDate +
+                "&user=" + clientName + "&chan=" + channelId + "&text=" + message + "&latitude=" + "&longtitude=";
+        http://ap2-chat-server.appspot.com/Save_Message?date=14.06.2015.14.23&user=binny&chan=fox&text=nooooice&latitude=10&longtitude=20
+
+        new ServerFeeds().execute("http://10.0.2.2:13081/");
+
         //chatArrayAdapter.add(new Message(side, chatText.getText().toString(),clientName));
         chatText.setText("");
-        side = !side;
         return true;
     }
+
+    private class ServerFeeds extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpContext localContext = new BasicHttpContext();
+            HttpGet httpGet = new HttpGet(params[0]);
+            String text = null;
+            try {
+                HttpResponse response = httpClient.execute(httpGet, localContext);
+                HttpEntity entity = response.getEntity();
+                text = getASCIIContentFromEntity(entity);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            return text;
+        }
+
+        protected void onPostExecute(String result) {
+            try {
+                JSONObject obj = new JSONObject(result);
+                String version = obj.getString("version");
+                JSONArray feeds = obj.getJSONArray("feeds");
+                for (int i = 0; i < feeds.length(); i++) {
+                    JSONObject data = feeds.getJSONObject(i);
+                    int a = 1;
+                    if (a == 1)
+                    {
+
+                    }
+                }
+                SharedPreferences sharedPref = getPreferences(MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("version5", version);
+                editor.commit();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    protected String getASCIIContentFromEntity(HttpEntity entity)
+            throws IllegalStateException, IOException {
+        InputStream in = entity.getContent();
+        StringBuffer out = new StringBuffer();
+        int n = 1;
+        while (n > 0) {
+            byte[] b = new byte[4096];
+            n = in.read(b);
+            if (n > 0)
+                out.append(new String(b, 0, n));
+        }
+        return out.toString();
+    }
+
 }
