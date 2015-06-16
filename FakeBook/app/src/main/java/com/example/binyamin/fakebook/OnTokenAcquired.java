@@ -39,6 +39,10 @@ public class OnTokenAcquired implements AccountManagerCallback<Bundle> {
                 activity.startActivityForResult(intent, USER_PERMISSION);
             } else {
                 setAuthToken(bundle);
+                //added code
+                Intent loginIntent = new Intent(activity, MainActivity.class);
+                activity.startActivity(loginIntent);
+                activity.finish();
             }
         }
         catch(Exception e){

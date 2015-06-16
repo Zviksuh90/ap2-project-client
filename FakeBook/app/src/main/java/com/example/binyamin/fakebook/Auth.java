@@ -50,7 +50,9 @@ public class Auth extends AsyncTask<String, Void, Boolean> {
 
     //display the response from the request above
     protected void onPostExecute(Boolean result) {
+
         Toast.makeText(context, "Response from request: " + content,
                 Toast.LENGTH_LONG).show();
+
     }
 }
