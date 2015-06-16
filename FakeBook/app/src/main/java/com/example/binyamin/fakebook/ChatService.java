@@ -18,6 +18,8 @@ import android.os.Bundle;
 import android.os.Environment;
 
 import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -41,53 +43,32 @@ public class ChatService extends IntentService {
     // will be called asynchronously by Android
     @Override
     protected void onHandleIntent(Intent intent) {
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpContext localContext = new BasicHttpContext();
-        //handeling updates
-        HttpGet httpGet = new HttpGet(GET_UPDATES);
-        String text = null;
-        try {
-            HttpResponse response = httpClient.execute(httpGet, localContext);
-            HttpEntity entity = response.getEntity();
-            text = getASCIIContentFromEntity(entity);
-            String result = text;
+       HttpClient httpClient = new DefaultHttpClient();
+       HttpContext localContext = new BasicHttpContext();
+            Toast.makeText(getApplicationContext(), "service running",
+                    Toast.LENGTH_LONG).show();
+            //handeling updates
+            HttpGet httpGet = new HttpGet(GET_UPDATES);
+            String text = null;
             try {
-                JSONObject obj = new JSONObject(result);
-                JSONArray messages = obj.getJSONArray("messages");
-                for (int i = 0; i < messages.length(); i++) {
-                    JSONObject data = messages.getJSONObject(i);
-                    db.addMessage(new Message(data.getString(DatabaseHandler.KEY_CHANNEL_ID),
-                                                data.getString(DatabaseHandler.KEY_USER_ID),
-                                                data.getString(DatabaseHandler.KEY_TEXT),
-                                                data.getString(DatabaseHandler.KEY_DATE_TIME),
-                                                data.getString(DatabaseHandler.KEY_LONGTITUDE),
-                                                data.getString(DatabaseHandler.KEY_LATITUDE)));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        //handeling channels
-        httpGet = new HttpGet(GET_CHANNELS);
-        text = null;
-        try {
-            HttpResponse response = httpClient.execute(httpGet, localContext);
-            HttpEntity entity = response.getEntity();
-            text = getASCIIContentFromEntity(entity);
-            String result = text;
-            try {
-                JSONObject obj = new JSONObject(result);
-                JSONArray messages = obj.getJSONArray("channels");
-                for (int i = 0; i < messages.length(); i++) {
-                    JSONObject data = messages.getJSONObject(i);
-                    db.addChannel(new Channel(data.getString(DatabaseHandler.KEY_ICON),
-                            data.getString(DatabaseHandler.KEY_NAME),
-                            data.getString(DatabaseHandler.KEY_ID)));
+                HttpResponse response = httpClient.execute(httpGet, localContext);
+                HttpEntity entity = response.getEntity();
+                text = getASCIIContentFromEntity(entity);
+                String result = text;
+                try {
+                    JSONObject obj = new JSONObject(result);
+                    JSONArray messages = obj.getJSONArray("messages");
+                    for (int i = 0; i < messages.length(); i++) {
+                        JSONObject data = messages.getJSONObject(i);
+                        db.addMessage(new Message(data.getString(DatabaseHandler.KEY_CHANNEL_ID),
+                                data.getString(DatabaseHandler.KEY_USER_ID),
+                                data.getString(DatabaseHandler.KEY_TEXT),
+                                data.getString(DatabaseHandler.KEY_DATE_TIME),
+                                data.getString(DatabaseHandler.KEY_LONGTITUDE),
+                                data.getString(DatabaseHandler.KEY_LATITUDE)));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
 
@@ -95,12 +76,36 @@ public class ChatService extends IntentService {
                 e.printStackTrace();
             }
 
+            //handeling channels
+            httpGet = new HttpGet(GET_CHANNELS);
+            text = null;
+            try {
+                HttpResponse response = httpClient.execute(httpGet, localContext);
+                HttpEntity entity = response.getEntity();
+                text = getASCIIContentFromEntity(entity);
+                String result = text;
+                try {
+                    JSONObject obj = new JSONObject(result);
+                    JSONArray messages = obj.getJSONArray("channels");
+                    for (int i = 0; i < messages.length(); i++) {
+                        JSONObject data = messages.getJSONObject(i);
+                        db.addChannel(new Channel(data.getString(DatabaseHandler.KEY_ICON),
+                                data.getString(DatabaseHandler.KEY_NAME),
+                                data.getString(DatabaseHandler.KEY_ID)));
+                        Toast.makeText(getApplicationContext(), "service added" + data.getString(DatabaseHandler.KEY_ICON) + data.getString(DatabaseHandler.KEY_NAME),
+                                Toast.LENGTH_LONG).show();
+                    }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-    }
-
     protected String getASCIIContentFromEntity(HttpEntity entity)
             throws IllegalStateException, IOException {
         InputStream in = entity.getContent();
