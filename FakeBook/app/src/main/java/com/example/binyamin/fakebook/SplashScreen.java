@@ -85,6 +85,8 @@ public class SplashScreen extends Activity {
     }
 
     public void getUpdates(){
+        Toast.makeText(getApplicationContext(), "in getUpdates",
+                Toast.LENGTH_LONG).show();
         HttpClient httpClient = new DefaultHttpClient();
         HttpContext localContext = new BasicHttpContext();
         //handeling updates
