@@ -51,7 +51,7 @@ public class SplashScreen extends Activity {
 
         h.postDelayed(new Runnable(){
             public void run(){
-                Toast.makeText(getApplicationContext(), "handler running",
+                Toast.makeText(getApplicationContext(), "handler running " + "user = "+GetCookie.appId,
                         Toast.LENGTH_SHORT).show();
                 //db.addChannel(new Channel("name", "id", "hello"));
                 getUpdates();
