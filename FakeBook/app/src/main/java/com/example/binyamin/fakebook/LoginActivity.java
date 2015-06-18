@@ -21,8 +21,7 @@ import java.util.ArrayList;
 
 
 public class LoginActivity extends ActionBarActivity {
-
-
+    static String currentUser;
     AccountManager accountManager;
     private Account[] accounts;
     Spinner spinner;
@@ -53,7 +52,7 @@ public class LoginActivity extends ActionBarActivity {
             public void onClick(View v) {
                 spinner = (Spinner) findViewById(R.id.account);
                 account = accounts[spinner.getSelectedItemPosition()];
-
+                currentUser=account.toString();
                 accountManager.getAuthToken(account, "ah", null, false, new OnTokenAcquired(httpClient, LoginActivity.this), null);
                             }
         });
@@ -70,5 +69,7 @@ public class LoginActivity extends ActionBarActivity {
             // user canceled
         }
     }
-
+    public static String getCurrentUser(){
+        return currentUser;
+    }
 }
