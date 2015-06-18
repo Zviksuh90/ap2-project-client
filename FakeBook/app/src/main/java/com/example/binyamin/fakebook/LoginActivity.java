@@ -55,19 +55,18 @@ public class LoginActivity extends ActionBarActivity {
                 account = accounts[spinner.getSelectedItemPosition()];
 
                 accountManager.getAuthToken(account, "ah", null, false, new OnTokenAcquired(httpClient, LoginActivity.this), null);
-            }
+                            }
         });
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (resultCode == RESULT_OK) {
             accountManager.getAuthToken(account, "ah", null, false, new OnTokenAcquired(httpClient, LoginActivity.this), null);
-            Intent mainIntent = new Intent(LoginActivity.this,MainActivity.class);
-            LoginActivity.this.startActivity(mainIntent);
+            Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
+            LoginActivity.this.startActivity(loginIntent);
             LoginActivity.this.finish();
-        }
-        else if(resultCode ==  RESULT_CANCELED){
+        } else if (resultCode == RESULT_CANCELED) {
             // user canceled
         }
     }
