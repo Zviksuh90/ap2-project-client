@@ -40,7 +40,7 @@ public class ChatActivity extends ActionBarActivity {
     private ListView listView;
     private EditText chatText;
     private Button buttonSend;
-    private String channelId;
+    private String channelId = "not updated";
 
     Intent intent;
     private boolean side = false;
@@ -66,14 +66,17 @@ public class ChatActivity extends ActionBarActivity {
         buttonSend = (Button) findViewById(R.id.buttonSend);
         listView = (ListView) findViewById(R.id.listView1);
         //TODO set up the get messages
-        channelId = "channel1";
-        Intent intent = getIntent();
-        /*
-        if (null != intent) {
-            channelID = intent.getStringExtra("CHANNEL");
+        //channelId = "channel1";
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            channelId = extras.getString("ChannelKey");
         }
-        */
+
+        Toast.makeText(getApplicationContext(),channelId,
+                Toast.LENGTH_SHORT).show();
+
         List<Message> messagesList = db.getAllMessages();
+
         chatArrayAdapter = new ChatArrayAdapter(getApplicationContext(), R.layout.activity_chat_singlemessage,messagesList);
         listView.setAdapter(chatArrayAdapter);
         chatText = (EditText) findViewById(R.id.chatText);

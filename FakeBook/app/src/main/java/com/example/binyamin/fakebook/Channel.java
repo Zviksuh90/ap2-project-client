@@ -14,7 +14,6 @@ public class Channel {
         this.id = id;
     }
     public Channel() {
-
     }
 
     public String getIcon() {

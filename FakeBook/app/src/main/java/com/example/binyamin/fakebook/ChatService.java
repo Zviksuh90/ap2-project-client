@@ -95,8 +95,6 @@ public class ChatService extends IntentService {
                         Toast.makeText(getApplicationContext(), "service added" + data.getString(DatabaseHandler.KEY_ICON) + data.getString(DatabaseHandler.KEY_NAME),
                                 Toast.LENGTH_LONG).show();
                     }
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

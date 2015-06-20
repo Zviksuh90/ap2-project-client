@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.app.ListFragment;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,22 +23,17 @@ public class MyListFragment extends ListFragment {
         db = new DatabaseHandler(getActivity());
         channels = new ArrayList<Channel>();
         channels = db.getAllChannels();
-        /*
-        Channel ch1 = new Channel("icon","channel1","20022");
-        Channel ch2 = new Channel("icon","channel2","20023");
-        Channel ch3 = new Channel("icon","channel3","20024");
-        channels.add(ch1);
-        channels.add(ch2);
-        channels.add(ch3);
-        */
         ChannelArrayAdapter adapter = new ChannelArrayAdapter(getActivity(),
                 R.layout.list_item, channels);
         setListAdapter(adapter);
     }
 
+
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Intent chatIntent = new Intent(getActivity(), ChatActivity.class);
+        String name = ((TextView) v.findViewById(R.id.title)).getText().toString();
+        chatIntent.putExtra("ChannelKey",name);
         getActivity().startActivity(chatIntent);
     }
 

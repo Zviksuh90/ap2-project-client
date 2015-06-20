@@ -50,7 +50,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE);
 
         CREATE_TABLE = "CREATE TABLE " + TABLE_CHANNELS + "("
-                + KEY_ICON + " TEXT," + KEY_NAME + " TEXT," + KEY_ID + " TEXT" + ")";
+                + KEY_ICON + " TEXT," + KEY_NAME + " TEXT," + KEY_ID + " TEXT,"
+                + "UNIQUE(" + KEY_ID +") ON CONFLICT IGNORE)";
         db.execSQL(CREATE_TABLE);
     }
 
