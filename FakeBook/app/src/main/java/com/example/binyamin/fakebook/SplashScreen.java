@@ -7,6 +7,8 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.widget.TextView;
 
+import org.apache.http.impl.client.DefaultHttpClient;
+
 public class SplashScreen extends Activity {
     public static final String GET_CHANNELS = "http://ap2-chat-server.appspot.com/" + "getChannels";
     public static final String GET_UPDATES = "http://ap2-chat-server.appspot.com/" + "getUpdates";
@@ -26,7 +28,7 @@ public class SplashScreen extends Activity {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.splash_screen);
-
+        SingletonHttpClient.setInstance(new DefaultHttpClient());
         splashText = (TextView) findViewById(R.id.splashText);
         db = new DatabaseHandler(this);
         db.deleteAllChannels();
