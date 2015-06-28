@@ -93,6 +93,7 @@ public class ChatActivity extends ActionBarActivity {
             @Override
             public void onClick(View arg0) {
                 sendChatMessage();
+                ChatActivity.this.finish();
             }
         });
 

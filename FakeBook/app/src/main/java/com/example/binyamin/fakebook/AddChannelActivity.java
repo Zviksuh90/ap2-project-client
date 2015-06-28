@@ -81,7 +81,6 @@ public class AddChannelActivity extends ActionBarActivity {
     }
 
     private class ServerFeeds extends AsyncTask<String, String, String> {
-
         @Override
         protected String doInBackground(String... params) {
             HttpClient client = new DefaultHttpClient();
