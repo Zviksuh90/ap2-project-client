@@ -65,7 +65,7 @@ public class MyListFragment extends ListFragment {
     private class ServerFeeds extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... params) {
-            HttpClient client = new DefaultHttpClient();
+            DefaultHttpClient client = SingletonHttpClient.getInstance();
             HttpPost post = new HttpPost("http://ap2-chat-server.appspot.com/joinChannel");
             try {
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
@@ -76,7 +76,7 @@ public class MyListFragment extends ListFragment {
                 BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
                 String line = "";
                 while ((line = rd.readLine()) != null) {
-                    Log.d("the httpost join channels", line);
+                    Log.d("httpost join channels", line);
                 }
 
             } catch (IOException e) {

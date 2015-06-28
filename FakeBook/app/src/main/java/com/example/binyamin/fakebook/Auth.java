@@ -23,6 +23,7 @@ public class Auth extends AsyncTask<String, Void, Boolean> {
     public Auth(DefaultHttpClient httpclient, Context context)
     {
         this.httpclient = httpclient;
+        SingletonHttpClient.setInstance(httpclient);
         this.context = context;
     }
 
@@ -53,6 +54,5 @@ public class Auth extends AsyncTask<String, Void, Boolean> {
 
         Toast.makeText(context, "Response from request: " + content,
                 Toast.LENGTH_LONG).show();
-        SingletonHttpClient.setInstance(httpclient);
     }
 }

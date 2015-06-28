@@ -103,7 +103,7 @@ public class MyIntentService extends IntentService {
     private void handleActionGetUpdates() {
         // TODO: Handle action Foo
         db = new DatabaseHandler(this);
-        HttpClient httpClient = new DefaultHttpClient();
+        DefaultHttpClient httpClient = SingletonHttpClient.getInstance();
         HttpContext localContext = new BasicHttpContext();
         //handeling updates
         HttpGet httpGet = new HttpGet(GET_UPDATES);
@@ -124,6 +124,7 @@ public class MyIntentService extends IntentService {
                             data.getString(DatabaseHandler.KEY_DATE_TIME),
                             data.getString(DatabaseHandler.KEY_LONGTITUDE),
                             data.getString(DatabaseHandler.KEY_LATITUDE)));
+                    Log.d("the message", data.getString(KEY_USER_ID) + data.getString(KEY_TEXT));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

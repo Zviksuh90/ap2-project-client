@@ -25,14 +25,14 @@ public class LoginActivity extends ActionBarActivity {
     AccountManager accountManager;
     private Account[] accounts;
     Spinner spinner;
-    DefaultHttpClient httpClient = new DefaultHttpClient();
+    DefaultHttpClient httpClient;
     Account account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        httpClient=SingletonHttpClient.getInstance();
         accountManager = AccountManager.get(getApplicationContext());
         accounts = accountManager.getAccountsByType("com.google");
 
