@@ -53,7 +53,6 @@ public class OnTokenAcquired implements AccountManagerCallback<Bundle> {
     //using the auth token and ask for a auth cookie
     protected void setAuthToken(Bundle bundle) {
         String authToken = bundle.getString(AccountManager.KEY_AUTHTOKEN);
-
         new GetCookie(httpclient, APP_ID, activity.getBaseContext()).execute(authToken);
     }
 };
