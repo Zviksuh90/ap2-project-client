@@ -2,6 +2,9 @@ package com.example.binyamin.fakebook;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +23,7 @@ public class ChannelArrayAdapter extends ArrayAdapter<Channel> {
 
     TextView channelName;
     TextView channelId;
+    ImageView channelIcon;
     Context context;
     private List<Channel> channelList = new ArrayList();
     RelativeLayout singleMessageContainer;
@@ -83,6 +87,8 @@ public class ChannelArrayAdapter extends ArrayAdapter<Channel> {
         channelName.setText(ChannelOnj.getName());
         channelId = (TextView)row.findViewById(R.id.channelId);
         channelId.setText(ChannelOnj.getId());
+        channelIcon = (ImageView)row.findViewById(R.id.icon);
+        channelIcon.setImageBitmap(MyApplication.decodeBase64(ChannelOnj.getIcon()));
         return row;
     }
 }

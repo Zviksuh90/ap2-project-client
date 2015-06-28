@@ -71,7 +71,6 @@
             android:name=".ChatActivity"
             android:label="@string/title_activity_chat" >
         </activity>
-
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
@@ -82,6 +81,11 @@
             android:name=".MyIntentService"
             android:exported="false" >
         </service>
+
+        <activity
+            android:name=".MoviesAdvice"
+            android:label="@string/title_activity_movies_advice" >
+        </activity>
     </application>
 
 </manifest>

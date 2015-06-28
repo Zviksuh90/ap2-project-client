@@ -2,6 +2,7 @@ package com.example.binyamin.fakebook;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -37,8 +38,9 @@ public class SplashScreen extends Activity {
         db.addMessage(new Message("soccer", "goodbye", "sam", "time", "lat", "long"));
         db.addMessage(new Message("soccer","hello","yossi","time","lat","long"));
         db.addChannel(new Channel("icon","soccer","soccerId"));
-        db.addChannel(new Channel("icon2","baseball","baseballId"));
-
+        //db.addChannel(new Channel("icon2","baseball","baseballId"));
+        String movieBit = MyApplication.encodeTobase64(BitmapFactory.decodeResource(getResources(), R.drawable.moviemoji));
+        db.addChannel(new Channel(movieBit,"Movies","MovieId"));
 
         final Handler h = new Handler();
         final int delay = 10000; //milliseconds

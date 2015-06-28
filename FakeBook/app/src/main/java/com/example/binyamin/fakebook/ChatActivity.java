@@ -50,31 +50,17 @@ public class ChatActivity extends ActionBarActivity {
     private Button buttonSend;
     private String channelId = "not updated";
 
-    Intent intent;
-    private boolean side = false;
     DatabaseHandler db;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent i = getIntent();
         setContentView(R.layout.activity_chat);
 
         //TODO set up datebase
         db = new DatabaseHandler(this);
-        //db.onOpen();
-        //create new messages
-        /*
-        Message m1 = new Message("channel1","hello","jimmy","1234","12367","12389");
-        Message m2 = new Message("channel1","bye","sam","34","356","123345");
-        Message m3 = new Message("channel1","why","josh","5523","389","167");
-        db.addMessage(m1);
-        db.addMessage(m2);
-        db.addMessage(m3);
-        */
         buttonSend = (Button) findViewById(R.id.buttonSend);
         listView = (ListView) findViewById(R.id.listView1);
         //TODO set up the get messages
-        //channelId = "channel1";
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             channelId = extras.getString("ChannelKey");
@@ -143,7 +129,6 @@ public class ChatActivity extends ActionBarActivity {
     private boolean sendChatMessage(){
         String clientName = "sammy";
 
-
         //getting message
         EditText chatText = (EditText) findViewById(R.id.chatText);
         String message = chatText.getText().toString();
@@ -152,6 +137,7 @@ public class ChatActivity extends ActionBarActivity {
 
         //chatArrayAdapter.add(new Message(side, chatText.getText().toString(),clientName));
         chatText.setText("");
+        chatArrayAdapter.notifyDataSetChanged();
         return true;
     }
 

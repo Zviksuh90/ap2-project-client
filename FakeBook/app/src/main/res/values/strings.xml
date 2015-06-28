@@ -16,10 +16,12 @@
     <string name="title_activity_friends_list">Friend Finder</string>
     <string name="title_activity_friend_list">Friend Finder</string>
     <string name="title_activity_add_friend">Friend Finder</string>
-    <string name="name">ListViewBaseAdapter</string>
-    <string name="image">Thumbnail</string>
+        <string name="name">ListViewBaseAdapter</string>
+        <string name="image">Thumbnail</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main_activity_horizontol">Friend Finder</string>
     <string name="title_activity_chat">Friend Finder</string>
     <string name="send_message">Send Message</string>
+    <string name="title_activity_movies_advice">MoviesAdvice</string>
+
 </resources>

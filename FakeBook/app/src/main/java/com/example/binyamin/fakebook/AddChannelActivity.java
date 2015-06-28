@@ -1,14 +1,19 @@
 package com.example.binyamin.fakebook;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -24,6 +29,7 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -33,6 +39,7 @@ import java.util.List;
 public class AddChannelActivity extends ActionBarActivity {
 
     Button buttonAdd;
+    String icon = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,13 +56,36 @@ public class AddChannelActivity extends ActionBarActivity {
         });
     }
 
+    public void addPicture(View view){
+        Bitmap bitmap = null;
+        switch (view.getId()) {
+            case R.id.smile:
+                bitmap = BitmapFactory.decodeResource(getResources(),  R.drawable.emoji);
+                break;
+            case R.id.kiss:
+                bitmap = BitmapFactory.decodeResource(getResources(),  R.drawable.emoji3);
+                break;
+            case R.id.tongue:
+                bitmap = BitmapFactory.decodeResource(getResources(),  R.drawable.emoji2);
+                break;
+        }
+        icon = MyApplication.encodeTobase64(bitmap);
+        /*
+        ByteArrayOutputStream bao = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bao);
+        byte [] ba = bao.toByteArray();
+        icon = Base64.encodeToString(ba,Base64.DEFAULT);
+        */
+    }
+
     private void addChannel() {
         EditText editTextChannelName = (EditText)findViewById(R.id.channelName);
         String channelName = editTextChannelName.getText().toString();
         EditText editTextChannelId = (EditText)findViewById(R.id.channelId);
         String channelId = editTextChannelId.getText().toString();
         //String channelToAdd = "http://ap2-chat-server.appspot.com/Add_Channel?name=" + channelName + "&icon=" + channelId;
-        new ServerFeeds().execute(channelName,channelId,channelName);
+
+        new ServerFeeds().execute(channelName,icon,channelId);
 
     }
 
@@ -110,22 +140,6 @@ public class AddChannelActivity extends ActionBarActivity {
             return "";
         }
 
-            /*
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpContext localContext = new BasicHttpContext();
-            List<NameValuePair> paramsList = new ArrayList<NameValuePair>(2);
-            paramsList.add(new BasicNameValuePair("name", params[0]));
-            paramsList.add(new BasicNameValuePair("icon", params[1]));
-            HttpPost httpPost = new HttpPost(params[0]);
-            try {
-                httpClient.execute(httpPost, localContext);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return "";
-
-        }
-*/
         protected void onPostExecute(String result) {
 
         }
