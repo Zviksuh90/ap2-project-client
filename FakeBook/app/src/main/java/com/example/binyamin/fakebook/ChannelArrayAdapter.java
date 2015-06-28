@@ -19,6 +19,7 @@ import java.util.List;
 public class ChannelArrayAdapter extends ArrayAdapter<Channel> {
 
     TextView channelName;
+    TextView channelId;
     Context context;
     private List<Channel> channelList = new ArrayList();
     RelativeLayout singleMessageContainer;
@@ -79,7 +80,9 @@ public class ChannelArrayAdapter extends ArrayAdapter<Channel> {
         singleMessageContainer = (RelativeLayout) row.findViewById(R.id.list_item_relative);
         Channel ChannelOnj = getItem(position);
         channelName = (TextView) row.findViewById(R.id.title);
-        channelName.setText(ChannelOnj.getName() + "\n" + ChannelOnj.getId());
+        channelName.setText(ChannelOnj.getName());
+        channelId = (TextView)row.findViewById(R.id.channelId);
+        channelId.setText(ChannelOnj.getId());
         return row;
     }
 }

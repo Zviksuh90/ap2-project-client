@@ -1,6 +1,7 @@
 package com.example.binyamin.fakebook;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -73,10 +74,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Adding new message
     void addMessage(Message message) {
+        //getting the time
+        Calendar c = Calendar.getInstance();
+        int seconds = c.get(Calendar.SECOND);
+        int Hr24=c.get(Calendar.HOUR_OF_DAY);
+        int Min=c.get(Calendar.MINUTE);
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-
         values.put(KEY_CHANNEL_ID, message.getChanel());
         values.put(KEY_USER_ID, message.getUser());
         values.put(KEY_TEXT, message.getText());
@@ -167,5 +173,33 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // return contact list
         return channelList;
+    }
+
+    public List<Message> getMessagesFromChannel(String channelId) {
+        List<Message> messageList = new ArrayList<Message>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + TABLE_MESSAGES + " WHERE " + KEY_CHANNEL_ID + " LIKE " +
+                "'" + channelId + "'";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Message message = new Message();
+                message.setChannel(cursor.getString(0));
+                message.setUser(cursor.getString(1));
+                message.setText(cursor.getString(2));
+                message.setDate_time(cursor.getString(3));
+                message.setLongitude(cursor.getString(4));
+                message.setLatitude(cursor.getString(5));
+                // Adding contact to list
+                messageList.add(message);
+            } while (cursor.moveToNext());
+        }
+
+        // return contact list
+        return messageList;
     }
 }

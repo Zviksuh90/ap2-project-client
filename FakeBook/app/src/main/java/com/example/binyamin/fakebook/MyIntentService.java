@@ -102,7 +102,35 @@ public class MyIntentService extends IntentService {
      */
     private void handleActionGetUpdates(String param1, String param2) {
         // TODO: Handle action Foo
-        Log.v("in handle Foo", "!!!!!!!!!!!!!!!!!!!!!!!!!!" + param1 + param2);
+        db = new DatabaseHandler(this);
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpContext localContext = new BasicHttpContext();
+        //handeling updates
+        HttpGet httpGet = new HttpGet(GET_UPDATES);
+        String text = null;
+        try {
+            HttpResponse response = httpClient.execute(httpGet, localContext);
+            HttpEntity entity = response.getEntity();
+            text = getASCIIContentFromEntity(entity);
+            String result = text;
+            try {
+                JSONObject obj = new JSONObject(result);
+                JSONArray messages = obj.getJSONArray("messages");
+                for (int i = 0; i < messages.length(); i++) {
+                    JSONObject data = messages.getJSONObject(i);
+                    db.addMessage(new Message(data.getString(DatabaseHandler.KEY_CHANNEL_ID),
+                            data.getString(DatabaseHandler.KEY_USER_ID),
+                            data.getString(DatabaseHandler.KEY_TEXT),
+                            data.getString(DatabaseHandler.KEY_DATE_TIME),
+                            data.getString(DatabaseHandler.KEY_LONGTITUDE),
+                            data.getString(DatabaseHandler.KEY_LATITUDE)));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -2,12 +2,9 @@ package com.example.binyamin.fakebook;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 public class SplashScreen extends Activity {
@@ -33,16 +30,21 @@ public class SplashScreen extends Activity {
         splashText = (TextView) findViewById(R.id.splashText);
         db = new DatabaseHandler(this);
         db.deleteAllChannels();
-        //db.addMessage(new Message("Jim","hello","id","time","lat","long"));
+        db.deleteAllMessages();
+        db.addMessage(new Message("soccer", "hello", "Jim", "time", "lat", "long"));
+        db.addMessage(new Message("soccer", "goodbye", "sam", "time", "lat", "long"));
+        db.addMessage(new Message("soccer","hello","yossi","time","lat","long"));
+        db.addChannel(new Channel("icon","soccer","soccerId"));
+        db.addChannel(new Channel("icon2","baseball","baseballId"));
+
 
         final Handler h = new Handler();
         final int delay = 10000; //milliseconds
         h.postDelayed(new Runnable() {
             public void run() {
                 //db.addChannel(new Channel("name", "id", "hello"));
-               // MyIntentService.startActionGetChannels(getApplicationContext());
+                MyIntentService.startActionGetChannels(getApplicationContext());
                 h.postDelayed(this, delay);
-                h.
             }
         }, delay);
 

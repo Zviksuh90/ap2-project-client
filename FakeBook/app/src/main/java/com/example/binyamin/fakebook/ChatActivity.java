@@ -75,7 +75,7 @@ public class ChatActivity extends ActionBarActivity {
         Toast.makeText(getApplicationContext(),channelId,
                 Toast.LENGTH_SHORT).show();
 
-        List<Message> messagesList = db.getAllMessages();
+        List<Message> messagesList = db.getMessagesFromChannel(channelId);
 
         chatArrayAdapter = new ChatArrayAdapter(getApplicationContext(), R.layout.activity_chat_singlemessage,messagesList);
         listView.setAdapter(chatArrayAdapter);
