@@ -53,6 +53,6 @@ public class Auth extends AsyncTask<String, Void, Boolean> {
 
         Toast.makeText(context, "Response from request: " + content,
                 Toast.LENGTH_LONG).show();
-
+        SingletonHttpClient.setInstance(httpclient);
     }
 }

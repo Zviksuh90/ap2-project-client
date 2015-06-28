@@ -6,6 +6,7 @@ import android.database.DataSetObserver;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,17 +20,24 @@ import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -136,20 +144,12 @@ public class ChatActivity extends ActionBarActivity {
     private boolean sendChatMessage(){
         String clientName = "sammy";
 
-        //getting date
-        Calendar c = Calendar.getInstance();
-        System.out.println("Current time =&gt; "+c.getTime());
-        SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-        String formattedDate = df.format(c.getTime());
-        Toast.makeText(this, formattedDate, Toast.LENGTH_SHORT).show();
+
         //getting message
         EditText chatText = (EditText) findViewById(R.id.chatText);
         String message = chatText.getText().toString();
 
-        String messageToSend = "http://ap2-chat-server.appspot.com/Save_Message?date=" + formattedDate +
-                "&user=" + clientName + "&chan=" + channelId + "&text=" + message + "&lat=" + "10" + "&long=" + "20";
-
-        new ServerFeeds().execute(messageToSend);
+        new ServerFeeds().execute(channelId,message,"10,20");
 
         //chatArrayAdapter.add(new Message(side, chatText.getText().toString(),clientName));
         chatText.setText("");
@@ -157,46 +157,33 @@ public class ChatActivity extends ActionBarActivity {
     }
 
     private class ServerFeeds extends AsyncTask<String, String, String> {
-
         @Override
         protected String doInBackground(String... params) {
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpContext localContext = new BasicHttpContext();
-            HttpGet httpGet = new HttpGet(params[0]);
-            String text;
+            DefaultHttpClient client = SingletonHttpClient.getInstance();
+            HttpPost post = new HttpPost("http://ap2-chat-server.appspot.com/sendMessage");
             try {
-                HttpResponse response = httpClient.execute(httpGet, localContext);
-                HttpEntity entity = response.getEntity();
-                text = getASCIIContentFromEntity(entity);
-                Toast.makeText(getApplicationContext(), text,
-                        Toast.LENGTH_LONG).show();
-            }
-            catch (Exception e)
-            {
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("channel_id",
+                        params[0]));
+                nameValuePairs.add(new BasicNameValuePair("text",
+                        params[1]));
+                nameValuePairs.add(new BasicNameValuePair("longtitude",
+                        params[2].split(",")[0]));
+                nameValuePairs.add(new BasicNameValuePair("latitude",
+                        params[2].split(",")[1]));
+                post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse response = client.execute(post);
+                BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+                String line = "";
+                while ((line = rd.readLine()) != null) {
+                    Log.d("the httpost sendMessage", line);
+                }
+
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             return "";
         }
 
-        protected void onPostExecute(String result) {
-
-        }
-
-        protected String getASCIIContentFromEntity(HttpEntity entity)
-                throws IllegalStateException, IOException {
-            InputStream in = entity.getContent();
-            StringBuffer out = new StringBuffer();
-            int n = 1;
-            while (n > 0) {
-                byte[] b = new byte[4096];
-                n = in.read(b);
-                if (n > 0)
-                    out.append(new String(b, 0, n));
-            }
-            return out.toString();
-        }
     }
-
-
-
 }

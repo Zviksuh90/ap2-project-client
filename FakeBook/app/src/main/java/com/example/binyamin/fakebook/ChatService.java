@@ -43,7 +43,7 @@ public class ChatService extends IntentService {
     // will be called asynchronously by Android
     @Override
     protected void onHandleIntent(Intent intent) {
-       HttpClient httpClient = new DefaultHttpClient();
+        DefaultHttpClient httpClient = SingletonHttpClient.getInstance();
        HttpContext localContext = new BasicHttpContext();
             Toast.makeText(getApplicationContext(), "service running",
                     Toast.LENGTH_LONG).show();

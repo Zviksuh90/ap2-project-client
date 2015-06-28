@@ -83,7 +83,7 @@ public class AddChannelActivity extends ActionBarActivity {
     private class ServerFeeds extends AsyncTask<String, String, String> {
         @Override
         protected String doInBackground(String... params) {
-            HttpClient client = new DefaultHttpClient();
+            DefaultHttpClient client = SingletonHttpClient.getInstance();
             HttpPost post = new HttpPost("http://ap2-chat-server.appspot.com/addChannel");
             try {
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
@@ -98,7 +98,7 @@ public class AddChannelActivity extends ActionBarActivity {
                 BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
                 String line = "";
                 while ((line = rd.readLine()) != null) {
-                    Log.d("the return from the httpost channel", line);
+                    Log.d("httpost addChannel", line);
 
                 }
 

@@ -139,7 +139,7 @@ public class MyIntentService extends IntentService {
      */
     private void handleActionGetChannels() {
         db = new DatabaseHandler(this);
-        HttpClient httpClient = new DefaultHttpClient();
+        DefaultHttpClient httpClient = SingletonHttpClient.getInstance();
         HttpContext localContext = new BasicHttpContext();
         //handeling updates
         HttpGet httpGet = new HttpGet(GET_CHANNELS);
