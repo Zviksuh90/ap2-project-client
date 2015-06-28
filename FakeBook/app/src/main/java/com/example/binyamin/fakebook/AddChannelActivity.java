@@ -43,6 +43,8 @@ public class AddChannelActivity extends ActionBarActivity {
             @Override
             public void onClick(View arg0) {
                 addChannel();
+                AddChannelActivity.this.finish();
+
             }
         });
     }

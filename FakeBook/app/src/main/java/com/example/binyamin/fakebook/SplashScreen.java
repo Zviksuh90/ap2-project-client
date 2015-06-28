@@ -43,6 +43,7 @@ public class SplashScreen extends Activity {
         h.postDelayed(new Runnable() {
             public void run() {
                 //db.addChannel(new Channel("name", "id", "hello"));
+                MyIntentService.startActionGetUpdates(getApplicationContext());
                 MyIntentService.startActionGetChannels(getApplicationContext());
                 h.postDelayed(this, delay);
             }
@@ -68,7 +69,7 @@ public class SplashScreen extends Activity {
             }
 
             public void onFinish() {
-                Intent loginIntent = new Intent(SplashScreen.this, LoginActivity.class);
+                Intent loginIntent = new Intent(SplashScreen.this, MainActivity.class);
                 SplashScreen.this.startActivity(loginIntent);
                 SplashScreen.this.finish();
             }

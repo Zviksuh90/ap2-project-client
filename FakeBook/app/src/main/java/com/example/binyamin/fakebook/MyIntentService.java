@@ -57,11 +57,11 @@ public class MyIntentService extends IntentService {
      * @see IntentService
      */
     // TODO: Customize helper method
-    public static void startActionGetUpdates(Context context, String param1, String param2) {
+    public static void startActionGetUpdates(Context context) {
         Intent intent = new Intent(context, MyIntentService.class);
         intent.setAction(ACTION_GET_UPDATES);
-        intent.putExtra(EXTRA_PARAM1, param1);
-        intent.putExtra(EXTRA_PARAM2, param2);
+        //intent.putExtra(EXTRA_PARAM1, param1);
+        //intent.putExtra(EXTRA_PARAM2, param2);
         context.startService(intent);
     }
 
@@ -87,9 +87,9 @@ public class MyIntentService extends IntentService {
         if (intent != null) {
             final String action = intent.getAction();
             if (ACTION_GET_UPDATES.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionGetUpdates(param1, param2);
+                //final String param1 = intent.getStringExtra(EXTRA_PARAM1);
+                //final String param2 = intent.getStringExtra(EXTRA_PARAM2);
+                handleActionGetUpdates();
             } else if (ACTION_GET_CHANNELS.equals(action)) {
                 handleActionGetChannels();
             }
@@ -100,7 +100,7 @@ public class MyIntentService extends IntentService {
      * Handle action Foo in the provided background thread with the provided
      * parameters.
      */
-    private void handleActionGetUpdates(String param1, String param2) {
+    private void handleActionGetUpdates() {
         // TODO: Handle action Foo
         db = new DatabaseHandler(this);
         HttpClient httpClient = new DefaultHttpClient();
