@@ -43,6 +43,7 @@ public class SplashScreen extends Activity {
         h.postDelayed(new Runnable() {
             public void run() {
                 //db.addChannel(new Channel("name", "id", "hello"));
+                MyIntentService.startActionGetUpdates(getApplicationContext());
                 MyIntentService.startActionGetChannels(getApplicationContext());
                 h.postDelayed(this, delay);
             }

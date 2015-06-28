@@ -47,7 +47,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String CREATE_TABLE = "CREATE TABLE " + TABLE_MESSAGES + "("
                 + KEY_CHANNEL_ID + " TEXT," + KEY_USER_ID + " TEXT,"
                 + KEY_TEXT + " TEXT," + KEY_DATE_TIME + " TEXT,"
-                + KEY_LONGTITUDE + " TEXT," + KEY_LATITUDE + " TEXT" + ")";
+                + KEY_LONGTITUDE + " TEXT," + KEY_LATITUDE + " TEXT,"
+                + "UNIQUE(" + KEY_DATE_TIME + "," + KEY_TEXT+") ON CONFLICT IGNORE)";
         db.execSQL(CREATE_TABLE);
 
         CREATE_TABLE = "CREATE TABLE " + TABLE_CHANNELS + "("
