@@ -66,7 +66,7 @@ public class MyListFragment extends ListFragment {
         @Override
         protected String doInBackground(String... params) {
             DefaultHttpClient client = SingletonHttpClient.getInstance();
-            HttpPost post = new HttpPost("http://ap2-chat-server.appspot.com/joinChannel");
+            HttpPost post = new HttpPost(MyApplication.getServerLink() + "/joinChannel");
             try {
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
                 nameValuePairs.add(new BasicNameValuePair("id",

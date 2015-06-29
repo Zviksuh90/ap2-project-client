@@ -116,7 +116,7 @@ public class AddChannelActivity extends ActionBarActivity {
         @Override
         protected String doInBackground(String... params) {
             DefaultHttpClient client = SingletonHttpClient.getInstance();
-            HttpPost post = new HttpPost("http://ap2-chat-server.appspot.com/addChannel");
+            HttpPost post = new HttpPost(MyApplication.getServerLink()+"/addChannel");
             try {
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
                 nameValuePairs.add(new BasicNameValuePair("name",

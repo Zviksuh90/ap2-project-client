@@ -11,8 +11,6 @@ import android.widget.TextView;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 public class SplashScreen extends Activity {
-    public static final String GET_CHANNELS = "http://ap2-chat-server.appspot.com/" + "getChannels";
-    public static final String GET_UPDATES = "http://ap2-chat-server.appspot.com/" + "getUpdates";
 
     /**
      * Duration of wait *
@@ -34,13 +32,14 @@ public class SplashScreen extends Activity {
         db = new DatabaseHandler(this);
         db.deleteAllChannels();
         db.deleteAllMessages();
-        db.addMessage(new Message("soccer", "hello", "Jim", "time", "lat", "long"));
+        db.getReadableDatabase();
+        //db.addMessage(new Message("soccer", "hello", "Jim", "time", "lat", "long"));
         db.addMessage(new Message("soccer", "goodbye", "sam", "time", "lat", "long"));
         db.addMessage(new Message("soccer","hello","yossi","time","lat","long"));
-        db.addChannel(new Channel("icon","soccer","soccerId"));
+        db.addChannel(new Channel("icon","soccer","soccerId", false));
         //db.addChannel(new Channel("icon2","baseball","baseballId"));
         String movieBit = MyApplication.encodeTobase64(BitmapFactory.decodeResource(getResources(), R.drawable.moviemoji));
-        db.addChannel(new Channel(movieBit,"Movies","MovieId"));
+        db.addChannel(new Channel(movieBit,"Movies","MovieId", true));
 
         final Handler h = new Handler();
         final int delay = 10000; //milliseconds
@@ -52,7 +51,7 @@ public class SplashScreen extends Activity {
                 h.postDelayed(this, delay);
             }
         }, delay);
-
+        
         new CountDownTimer(SPLASH_DISPLAY_LENGTH, SECOND) {
             public void onTick(long millisUntilFinished) {
                 int second = (int) millisUntilFinished / SECOND;

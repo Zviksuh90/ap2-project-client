@@ -36,9 +36,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String KEY_ICON = "icon";
     public static final String KEY_NAME = "name";
     public static final String KEY_ID = "id";
+    public static final String KEY_FLAG = "flag";
+
+    SQLiteDatabase db;
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        //db = getWritableDatabase();
     }
 
     // Creating Tables
@@ -48,12 +52,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_CHANNEL_ID + " TEXT," + KEY_USER_ID + " TEXT,"
                 + KEY_TEXT + " TEXT," + KEY_DATE_TIME + " TEXT,"
                 + KEY_LONGTITUDE + " TEXT," + KEY_LATITUDE + " TEXT,"
-                + "UNIQUE(" + KEY_DATE_TIME + "," + KEY_TEXT+") ON CONFLICT IGNORE)";
+                + "UNIQUE(" + KEY_DATE_TIME + "," + KEY_TEXT+") ON CONFLICT IGNORE);";
         db.execSQL(CREATE_TABLE);
-
+        //create the channel table
         CREATE_TABLE = "CREATE TABLE " + TABLE_CHANNELS + "("
-                + KEY_ICON + " TEXT," + KEY_NAME + " TEXT," + KEY_ID + " TEXT,"
-                + "UNIQUE(" + KEY_ID +") ON CONFLICT IGNORE)";
+                + KEY_ICON + " TEXT, " + KEY_NAME + " TEXT, " + KEY_ID + " TEXT, " + KEY_FLAG + " INTEGER,"
+                + "UNIQUE(" + KEY_ID +") ON CONFLICT IGNORE);";
         db.execSQL(CREATE_TABLE);
     }
 
@@ -106,7 +110,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_ICON, channel.getIcon());
         values.put(KEY_NAME, channel.getName());
         values.put(KEY_ID, channel.getId());
-
+        values.put(KEY_FLAG, channel.getIsJoined());
         // Inserting Row
         db.insert(TABLE_CHANNELS, null, values);
         db.close(); // Closing database connection
@@ -166,6 +170,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 channel.setIcon(cursor.getString(0));
                 channel.setName(cursor.getString(1));
                 channel.setId(cursor.getString(2));
+                //channel.setIsJoined(false);
+                channel.setIsJoined(cursor.getInt(cursor.getColumnIndex(KEY_FLAG)) == 1);
 
                 // Adding contact to list
                 channelList.add(channel);

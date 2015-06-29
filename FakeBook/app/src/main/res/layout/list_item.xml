@@ -29,5 +29,23 @@
         android:paddingLeft="10dp"
         android:textColor="#3399FF"
         android:textSize="14dp" />
+    <Button
+        android:id="@+id/join_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dp"
+        android:text="Join"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
 
+<!--    <Button
+        android:id="@+id/add_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/delete_btn"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:text="Add" />-->
 </RelativeLayout>

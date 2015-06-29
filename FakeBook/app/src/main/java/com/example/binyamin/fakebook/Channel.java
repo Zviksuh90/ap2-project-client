@@ -7,11 +7,13 @@ public class Channel {
     private String icon;
     private String name;
     private String id;
+    private Boolean isJoined;
 
-    public Channel(String icon, String name, String id) {
+    public Channel(String icon, String name, String id, Boolean isJoined) {
         this.icon = icon;
         this.name = name;
         this.id = id;
+        this.isJoined = isJoined;
     }
     public Channel() {
     }
@@ -33,5 +35,11 @@ public class Channel {
     }
     public void setId(String id) {
         this.id = id;
+    }
+    public void setIsJoined(Boolean isJoined) {
+        this.isJoined = isJoined;
+    }
+    public int getIsJoined(){
+        return isJoined?1:0;
     }
 }

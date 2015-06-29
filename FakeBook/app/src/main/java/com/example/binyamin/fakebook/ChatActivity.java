@@ -145,7 +145,7 @@ public class ChatActivity extends ActionBarActivity {
         @Override
         protected String doInBackground(String... params) {
             DefaultHttpClient client = SingletonHttpClient.getInstance();
-            HttpPost post = new HttpPost("http://ap2-chat-server.appspot.com/sendMessage");
+            HttpPost post = new HttpPost(MyApplication.getServerLink() + "/sendMessage");
             try {
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
                 nameValuePairs.add(new BasicNameValuePair("channel_id",

@@ -47,8 +47,8 @@ public class MyIntentService extends IntentService {
     private static final String EXTRA_PARAM2 = "com.example.binyamin.alarmtest.extra.PARAM2";
 
     private DatabaseHandler db;
-    public static final String GET_UPDATES = "http://ap2-chat-server.appspot.com/" + "getUpdates";
-    public static final String GET_CHANNELS =  "http://ap2-chat-server.appspot.com/" + "getChannels";
+    //public static final String GET_UPDATES = "http://ap2-chat-server.appspot.com/" + "getUpdates";
+    //public static final String GET_CHANNELS =  "http://ap2-chat-server.appspot.com/" + "getChannels";
 
     /**
      * Starts this service to perform action Foo with the given parameters. If
@@ -106,7 +106,7 @@ public class MyIntentService extends IntentService {
         DefaultHttpClient httpClient = SingletonHttpClient.getInstance();
         HttpContext localContext = new BasicHttpContext();
         //handeling updates
-        HttpGet httpGet = new HttpGet(GET_UPDATES);
+        HttpGet httpGet = new HttpGet(MyApplication.getServerLink() + "/getUpdates");
         String text = null;
         try {
             HttpResponse response = httpClient.execute(httpGet, localContext);
@@ -143,7 +143,7 @@ public class MyIntentService extends IntentService {
         DefaultHttpClient httpClient = SingletonHttpClient.getInstance();
         HttpContext localContext = new BasicHttpContext();
         //handeling updates
-        HttpGet httpGet = new HttpGet(GET_CHANNELS);
+        HttpGet httpGet = new HttpGet(MyApplication.getServerLink() + "/getChannels");
         String text = null;
         try {
             HttpResponse response = httpClient.execute(httpGet, localContext);
@@ -157,7 +157,7 @@ public class MyIntentService extends IntentService {
                     JSONObject data = messages.getJSONObject(i);
                     db.addChannel(new Channel(data.getString(DatabaseHandler.KEY_ICON),
                             data.getString(DatabaseHandler.KEY_NAME),
-                            data.getString(DatabaseHandler.KEY_ID)));
+                            data.getString(DatabaseHandler.KEY_ID),false));
                     Log.d("the channlel",data.getString(KEY_ICON)+ data.getString(KEY_NAME)+data.getString(KEY_ID));
                 }
             } catch (Exception e) {

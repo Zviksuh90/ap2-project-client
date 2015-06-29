@@ -18,7 +18,7 @@ public class GetCookie extends AsyncTask<String, Void, Boolean> {
     String appId;
     HttpParams params;
     private HttpResponse response;
-    private static final String LINK_TO_GET_AUTHENTICATED = "http://ap2-chat-server.appspot.com/login";
+    //private static final String LINK_TO_GET_AUTHENTICATED = "http://ap2-chat-server.appspot.com/login";
     Context context;
     private DefaultHttpClient httpclient;
 
@@ -66,6 +66,6 @@ public class GetCookie extends AsyncTask<String, Void, Boolean> {
 
     protected void onPostExecute(Boolean result)
     {
-        new Auth(httpclient, context).execute(LINK_TO_GET_AUTHENTICATED);
+        new Auth(httpclient, context).execute(MyApplication.getServerLink()+"/login");
     }
 }

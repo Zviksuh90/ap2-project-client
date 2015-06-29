@@ -17,7 +17,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 public class OnTokenAcquired implements AccountManagerCallback<Bundle> {
 
     private static final int USER_PERMISSION = 989;
-    private static final String APP_ID = "ap2-chat-server";
+    private static final String APP_ID = "ap2chatserver";
     private DefaultHttpClient httpclient;
     Activity activity;
 

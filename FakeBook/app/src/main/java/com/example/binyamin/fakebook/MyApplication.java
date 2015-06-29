@@ -13,14 +13,14 @@ import java.io.ByteArrayOutputStream;
  */
 public class MyApplication extends Application {
 
-    private String serverLink;
+    private static String serverLink;
 
-    public String getServerLink() {
+    public static String getServerLink() {
         return serverLink;
     }
 
-    public void setServerLink(String serverLink) {
-        this.serverLink = serverLink;
+    public static void setServerLink(String sl) {
+        serverLink = sl;
     }
 
     public static String encodeTobase64(Bitmap image)

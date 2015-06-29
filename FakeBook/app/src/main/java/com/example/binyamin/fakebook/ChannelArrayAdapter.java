@@ -10,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ public class ChannelArrayAdapter extends ArrayAdapter<Channel> {
     TextView channelName;
     TextView channelId;
     ImageView channelIcon;
+    Button button;
     Context context;
     private List<Channel> channelList = new ArrayList();
     RelativeLayout singleMessageContainer;
@@ -89,6 +92,29 @@ public class ChannelArrayAdapter extends ArrayAdapter<Channel> {
         channelId.setText(ChannelOnj.getId());
         channelIcon = (ImageView)row.findViewById(R.id.icon);
         channelIcon.setImageBitmap(MyApplication.decodeBase64(ChannelOnj.getIcon()));
+        button = (Button)row.findViewById(R.id.join_btn);
+        if (ChannelOnj.getIsJoined() == 1){
+            button.setText("Disconect");
+            button.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    //here do disconnect from channel
+                    Toast.makeText(getContext(),"channel disconnected",Toast.LENGTH_SHORT);
+                    notifyDataSetChanged();
+                }
+            });
+        } else {
+            button.setText("Join");
+            button.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    //here do connect to channel
+                    Toast.makeText(getContext(),"channel joined",Toast.LENGTH_SHORT);
+                    notifyDataSetChanged();
+                }
+            });
+        }
+
         return row;
     }
 }
