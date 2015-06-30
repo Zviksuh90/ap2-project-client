@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.DataInputStream;
@@ -17,8 +18,10 @@ import java.net.Socket;
 
 public class MoviesAdvice extends ActionBarActivity {
     Button buttonSend;
-    int port = 12344;
-    String address="172.18.29.98";
+    int port = 12345;
+
+    String address="10.0.0.10";
+    //String address="172.18.29.98";
     //String address="192.168.163.130";
     //String address="192.168.56.1";
     //String address="172.18.28.114";
@@ -74,14 +77,13 @@ public class MoviesAdvice extends ActionBarActivity {
 
                 try {
                     skt = new Socket();
-                    skt.connect(new InetSocketAddress("172.18.29.98", 12344));
+                    skt.connect(new InetSocketAddress(address, port));
                     in = new DataInputStream(skt.getInputStream());
                     out = new DataOutputStream(skt.getOutputStream());
 
                     out.writeBytes(message);
                     String response = in.readLine();
-                    Toast.makeText(getApplicationContext(),message, Toast.LENGTH_SHORT);
-                    response = "";
+                    ((TextView) findViewById(R.id.movieResponse)).setText(response);
 
                 }
                 catch (Exception e)
