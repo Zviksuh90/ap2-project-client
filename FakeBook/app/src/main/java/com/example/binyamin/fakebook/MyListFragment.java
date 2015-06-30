@@ -56,8 +56,16 @@ public class MyListFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Intent chatIntent = new Intent(getActivity(), ChatActivity.class);
+
         String name = ((TextView) v.findViewById(R.id.title)).getText().toString();
+
+        Intent chatIntent;
+        if(name.equalsIgnoreCase("movies")){
+            chatIntent= new Intent(getActivity(), MoviesAdvice.class);
+        }else{
+            chatIntent= new Intent(getActivity(), ChatActivity.class);
+        }
+
         chatIntent.putExtra("ChannelKey",name);
         getActivity().startActivity(chatIntent);
     }
