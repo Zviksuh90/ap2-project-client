@@ -17,7 +17,7 @@ import java.net.Socket;
 
 public class MoviesAdvice extends ActionBarActivity {
     Button buttonSend;
-    int port = 12345;
+    int port = 12344;
     String address="172.18.29.98";
     //String address="192.168.163.130";
     //String address="192.168.56.1";
@@ -74,7 +74,7 @@ public class MoviesAdvice extends ActionBarActivity {
 
                 try {
                     skt = new Socket();
-                    skt.connect(new InetSocketAddress(address, port));
+                    skt.connect(new InetSocketAddress("172.18.29.98", 12344));
                     in = new DataInputStream(skt.getInputStream());
                     out = new DataOutputStream(skt.getOutputStream());
 
