@@ -37,7 +37,7 @@ import java.util.List;
 
 
 public class AddChannelActivity extends ActionBarActivity {
-
+    DatabaseHandler db;
     Button buttonAdd;
     String icon = "";
     @Override
@@ -86,7 +86,8 @@ public class AddChannelActivity extends ActionBarActivity {
         //String channelToAdd = "http://ap2-chat-server.appspot.com/Add_Channel?name=" + channelName + "&icon=" + channelId;
 
         new ServerFeeds().execute(channelName,icon,channelId);
-
+        db = new DatabaseHandler(this);
+        db.addChannel(new Channel(icon,channelName,channelId,true));
     }
 
 
