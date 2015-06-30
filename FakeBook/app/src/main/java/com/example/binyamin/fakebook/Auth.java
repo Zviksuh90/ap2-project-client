@@ -23,7 +23,6 @@ public class Auth extends AsyncTask<String, Void, Boolean> {
     public Auth(DefaultHttpClient httpclient, Context context)
     {
         this.httpclient = httpclient;
-        SingletonHttpClient.setInstance(httpclient);
         this.context = context;
     }
 

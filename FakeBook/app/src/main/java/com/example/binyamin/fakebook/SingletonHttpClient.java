@@ -19,13 +19,11 @@ public class SingletonHttpClient {
 
     //return instance
     public static DefaultHttpClient getInstance() {
+        if (instance == null) {
+            instance = new DefaultHttpClient();
+        }
         return instance;
     }
 
-    //set instance
-    public static void setInstance(DefaultHttpClient h) {
-        if(instance == null) {
-            instance = h;
-        }
-    }
+
 }

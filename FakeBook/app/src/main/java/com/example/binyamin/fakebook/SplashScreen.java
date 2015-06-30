@@ -27,7 +27,7 @@ public class SplashScreen extends Activity {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setContentView(R.layout.splash_screen);
-        SingletonHttpClient.setInstance(new DefaultHttpClient());
+
         splashText = (TextView) findViewById(R.id.splashText);
         db = new DatabaseHandler(this);
         db.deleteAllChannels();

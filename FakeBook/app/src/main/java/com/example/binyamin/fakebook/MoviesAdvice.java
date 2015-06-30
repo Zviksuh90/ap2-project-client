@@ -8,9 +8,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+
 
 public class MoviesAdvice extends ActionBarActivity {
     Button buttonSend;
+    int port = 12345;
+    String address="172.18.28.114";
+   // String address = "192.168.239.140";
+    private String message;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +60,47 @@ public class MoviesAdvice extends ActionBarActivity {
 
         //getting message
         EditText chatText = (EditText) findViewById(R.id.moviesText);
-        String message = chatText.getText().toString();
+        message = chatText.getText().toString();
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Socket skt = null;
+                DataInputStream in = null;
+                DataOutputStream out = null;
 
+                try {
+                    skt = new Socket();
+                    skt.connect(new InetSocketAddress(address, port));
+                    in = new DataInputStream(skt.getInputStream());
+                    out = new DataOutputStream(skt.getOutputStream());
+
+                    out.writeBytes(message);
+                    String response = in.readLine();
+
+                    response = "";
+
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                finally {
+                    try {
+                        in.close();
+                    } catch (Exception e) {
+                    }
+                    try {
+                        out.close();
+                    } catch (Exception e) {
+                    }
+                    try {
+                        skt.close();
+                    } catch (Exception e) {
+                    }
+                }
+            }
+        });
+        t.start();
         //chatArrayAdapter.add(new Message(side, chatText.getText().toString(),clientName));
         chatText.setText("");
     }
