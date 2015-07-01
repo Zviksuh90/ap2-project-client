@@ -19,13 +19,13 @@ import java.net.Socket;
 public class MoviesAdvice extends ActionBarActivity {
     Button buttonSend;
     int port = 12345;
-
-    String address="10.0.0.10";
+    String address  ="192.168.119.210";
+    //String address="10.0.0.10";
     //String address="172.18.29.98";
     //String address="192.168.163.130";
     //String address="192.168.56.1";
     //String address="172.18.28.114";
-   // String address = "192.168.239.140";
+    // String address = "192.168.239.140";
     private String message;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
