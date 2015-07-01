@@ -72,7 +72,7 @@ public class SplashScreen extends Activity {
             }
 
             public void onFinish() {
-                Intent loginIntent = new Intent(SplashScreen.this, LoginActivity.class);
+                Intent loginIntent = new Intent(SplashScreen.this, MainActivity.class);
                 SplashScreen.this.startActivity(loginIntent);
                 SplashScreen.this.finish();
             }

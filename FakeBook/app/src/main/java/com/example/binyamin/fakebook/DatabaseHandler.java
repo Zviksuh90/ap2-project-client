@@ -1,5 +1,6 @@
 package com.example.binyamin.fakebook;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -9,7 +10,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
+import android.util.Log;
 
 
 public class DatabaseHandler extends SQLiteOpenHelper {
@@ -208,5 +209,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // return contact list
         return messageList;
+    }
+
+    public boolean setKeyFlag(String channelID, String join){
+        SQLiteDatabase db=this.getWritableDatabase();
+        String sql = null;
+        ContentValues values = new ContentValues();
+        int num;
+        if (join.equals("Join")) {
+            num = 1;
+        } else {
+            num = 0;
+        }
+        values.put(KEY_FLAG,num);
+        db.update(TABLE_CHANNELS, values,KEY_ID +" like '"+ channelID + "'", null);
+        return true;
     }
 }

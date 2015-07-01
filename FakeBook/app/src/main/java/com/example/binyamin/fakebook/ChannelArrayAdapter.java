@@ -28,6 +28,7 @@ public class ChannelArrayAdapter extends ArrayAdapter<Channel> {
     ImageView channelIcon;
     Button button;
     Context context;
+    DatabaseHandler db;
     private List<Channel> channelList = new ArrayList();
     RelativeLayout singleMessageContainer;
 
@@ -94,27 +95,30 @@ public class ChannelArrayAdapter extends ArrayAdapter<Channel> {
         channelIcon.setImageBitmap(MyApplication.decodeBase64(ChannelOnj.getIcon()));
         button = (Button)row.findViewById(R.id.join_btn);
         if (ChannelOnj.getIsJoined() == 1){
-            button.setText("Disconect");
-            button.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    //here do disconnect from channel
-                    Toast.makeText(getContext(),"channel disconnected",Toast.LENGTH_SHORT);
-                    notifyDataSetChanged();
-                }
-            });
+            button.setText("Disconnect");
         } else {
             button.setText("Join");
-            button.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    //here do connect to channel
-                    Toast.makeText(getContext(),"channel joined",Toast.LENGTH_SHORT);
-                    notifyDataSetChanged();
-                }
-            });
         }
-
+        button.setTag(ChannelOnj.getId());
+        button.setOnClickListener(mClickListener);
         return row;
     }
+
+    private View.OnClickListener mClickListener = new View.OnClickListener() {
+
+        public void onClick(View v) {
+            Button b = (Button)v;
+            String buttonText = b.getText().toString();
+            db = new DatabaseHandler(getContext());
+            db.setKeyFlag((String)v.getTag(),buttonText);
+            if (buttonText.equals("Join")){
+                Toast.makeText(getContext(),"channel joined",Toast.LENGTH_SHORT);
+                b.setText("Disconnect");
+            } else {
+                Toast.makeText(getContext(),"channel disconnected",Toast.LENGTH_SHORT);
+                b.setText("Join");
+            }
+            //notifyDataSetChanged();
+        }
+    };
 }
