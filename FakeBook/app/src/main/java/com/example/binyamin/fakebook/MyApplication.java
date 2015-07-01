@@ -16,7 +16,7 @@ public class MyApplication extends Application {
     private static String serverLink;
 
     public static String getServerLink() {
-        return "http://ap2chatserver.appspot.com/";
+        return "http://ap2-chat-server.appspot.com/";
         //return serverLink;
     }
 
