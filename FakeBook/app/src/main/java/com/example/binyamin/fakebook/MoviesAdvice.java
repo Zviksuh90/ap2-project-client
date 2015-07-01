@@ -84,6 +84,7 @@ public class MoviesAdvice extends ActionBarActivity {
                     out = new DataOutputStream(skt.getOutputStream());
 
                     out.writeBytes(message);
+
                     String response = in.readLine();
                     ((TextView) findViewById(R.id.movieResponse)).setText(response);
 
