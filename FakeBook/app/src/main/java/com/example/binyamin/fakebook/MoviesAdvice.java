@@ -19,19 +19,18 @@ import java.net.Socket;
 public class MoviesAdvice extends ActionBarActivity {
     Button buttonSend;
     int port = 12345;
-    String address  ="192.168.119.210";
-    //String address="10.0.0.10";
-    //String address="172.18.29.98";
-    //String address="192.168.163.130";
-    //String address="192.168.56.1";
-    //String address="172.18.28.114";
-    // String address = "192.168.239.140";
+
+    String address;
+
     private String message;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies_advice);
-        buttonSend = (Button)findViewById(R.id.buttonSendMovies);
+        ((EditText) findViewById(R.id.moviesText)).setHint("insert text here");
+        ((EditText) findViewById(R.id.ip)).setHint("insert address here");
+        buttonSend = (Button) findViewById(R.id.buttonSendMovies);
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -63,11 +62,14 @@ public class MoviesAdvice extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void sendMoviesQuery(){
+    private void sendMoviesQuery() {
 
         //getting message
         EditText chatText = (EditText) findViewById(R.id.moviesText);
         message = chatText.getText().toString();
+        //getting address
+        EditText addressText = (EditText) findViewById(R.id.ip);
+        address = chatText.getText().toString();
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -85,12 +87,9 @@ public class MoviesAdvice extends ActionBarActivity {
                     String response = in.readLine();
                     ((TextView) findViewById(R.id.movieResponse)).setText(response);
 
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
-                }
-                finally {
+                } finally {
                     try {
                         in.close();
                     } catch (Exception e) {
