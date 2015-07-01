@@ -13,11 +13,13 @@ import java.io.ByteArrayOutputStream;
  */
 public class MyApplication extends Application {
 
-    private static String serverLink;
+    private static String serverLink=null;
 
     public static String getServerLink() {
-        return "http://ap2-chat-server.appspot.com/";
-        //return serverLink;
+        if(serverLink==null) {
+            return "http://ap2-chat-server.appspot.com/";
+        }
+        return serverLink;
     }
 
     public static void setServerLink(String sl) {
