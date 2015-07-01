@@ -69,7 +69,7 @@ public class MoviesAdvice extends ActionBarActivity {
         message = chatText.getText().toString();
         //getting address
         EditText addressText = (EditText) findViewById(R.id.ip);
-        address = chatText.getText().toString();
+        address = addressText.getText().toString();
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
