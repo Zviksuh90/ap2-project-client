@@ -66,7 +66,7 @@ public class MoviesAdvice extends ActionBarActivity {
 
         //getting message
         EditText chatText = (EditText) findViewById(R.id.moviesText);
-        message = chatText.getText().toString();
+        message = chatText.getText().toString()+"\n";
         //getting address
         EditText addressText = (EditText) findViewById(R.id.ip);
         address = addressText.getText().toString();
