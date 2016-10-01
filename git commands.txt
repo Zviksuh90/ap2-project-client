@@ -2,3 +2,4 @@ git pull
 git add -A
 git commmit -m "comment"
 git push
+git init
